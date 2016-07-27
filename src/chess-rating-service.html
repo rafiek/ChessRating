@@ -5,15 +5,27 @@
 <script src="rating.js"></script>
 
 <dom-module id="chess-rating-service">
+    <template>
+        <style>
 
+        </style>
+
+    </template>
     <script>
+        'use strict';
 
-        Polymer({
+        class ChessRatingService{
 
-            is: "chess-rating-service"
+            beforeRegister(){
+                this.is = 'chess-rating-service';
+                this.properties
+            }
 
-        });
 
+
+        }
+
+        Polymer(ChessRatingService);
     </script>
 
 </dom-module>

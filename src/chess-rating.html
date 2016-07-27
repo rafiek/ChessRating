@@ -10,6 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="chess-rating-service.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-label/iron-label.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="chess-rating">
 
@@ -22,7 +25,64 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
+  <paper-input
+          label="your rating"
+          type="number"
+          auto-validate
+          allowed-pattern="[0-9]*"
+          placeholder="e.g. 1834">
+  </paper-input>
+    <iron-label>
+      <paper-item>{{averageOpponentRating}}</paper-item>
+      <span>Average opponent rating: </span>
+    </iron-label>
 
+
+
+
+    <div class="container-fluid">
+      <form class="form-horizontal" name="player">
+        <div class="form-group">
+          <label class="col-md-4 control-label">Rating</label>
+          <div class="col-md-8"><input class="form-control" type="number" name="input" ng-model="vm.player.rating"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Average Opponent Rating</label>
+          <div class="col-md-8"><p class="form-control-static">{{vm.getAverageOpponentRating()}}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Number of Games</label>
+          <div class="col-md-8"><p class="form-control-static">{{vm.getNumberOfGames()}}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Total Score</label>
+          <div class="col-md-8"><p class="form-control-static">{{vm.getTotalScore()}}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Expected Score</label>
+          <div class="col-md-8"><p class="form-control-static">{{vm.getExpectedScore()}}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">TPR</label>
+          <div class="col-md-8"><p class="form-control-static">{{vm.getTPR()}}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">New Rating</label>
+          <div class="col-md-8"><p class="form-control-static">{{vm.getNewRating()}}</p></div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">1. Opponent Rating</label>
+          <div class="col-md-4"><input class="form-control" type="number" name="input" ng-model="vm.player.games[0].ratingOpponent"></div>
+          <label for="result1" class="col-md-2 control-label">Result</label>
+          <select name="result1" id="result1" ng-model="vm.player.games[0].result">
+            <option value=""></option>
+            <option value="0">0</option>
+            <option value="0.5">0.5</option>
+            <option value="1">1</option>
+          </select>
+        </div>
+      </form>
+    </div>
 
   </template>
 
@@ -30,7 +90,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: "chess-rating"
+      is: "chess-rating",
+      properties:{
+        averageOpponentRating: {
+          type: Number,
+          value: 0,
+          notify: true
+        }
+      },
+      listeners: {
+        'change': 'handleChange'
+      },
+      handleChange: function(){
+        this.averageOpponentRating += 1;
+      }
 
     });
 
